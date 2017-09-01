@@ -1,0 +1,68 @@
+*{font-size:12px;border:0;margin:0;padding:0;}
+body{font-family:'微软雅黑'; margin:0 auto;min-width:1200px; color:#333333; line-height:24px;}
+ul{display:block;margin:0;padding:0;list-style:none;}
+li{display:block;margin:0;padding:0;list-style: none;}
+img{border:0;}
+a{text-decoration:none;color:#333;outline:none;}
+table{border-collapse:collapse;border-spacing: 0;}
+h2{font-weight:normal;}
+
+.main-img{position:fixed;z-index: -100;}
+.main-img img{width:100%;height:100%;position: fixed;}
+
+.main-canvas{ position:absolute;top:50%;left:50%;width:580px;height:600px;margin-top:-300px; 
+            margin-left:-290px;  text-align:center;z-index:-1; background:#fff;}
+#form-all{}
+.main-canvas-box{position:absolute;top:50%;left:50%; width:580px;  height:620px; 
+                 margin-top:-300px; margin-left:-290px;z-index:99; color:#333;}
+.main-canvas-box ul{width:500px;float: left;margin:20px 40px 20px 40px;}
+.main-canvas-box ul li{float:left;width:500px;}
+.main-canvas-box ul li img{float:left; padding-top:2px;}
+.main-canvas-box ul li span{float:right;text-align:right;font-size:16px; line-height:45px; }
+.main-canvas-box ul li b{ color:#c9c9c9; font-size:16px; line-height:26px; height:26px; padding-left:5px; font-weight:100;}
+.main-canvas-box ul li h1{ float:left;font-size:16px; padding:0px 5px; margin:5px 0px;}
+.main-canvas-box ul li a{color:#fd7400;  font-size:16px;}
+.main-canvas-box ul li a:hover{color:#bbb;}
+.main-canvas-box ul li h2{float:left;  padding:11px 15px; width: 25px;font-weight:100; line-height:30px; height:30px; background:#aaa;}
+
+.canvas-box-top{font-size:36px; padding-top:20px;}
+.canvas-box-list{float:left; height:30px; line-height:30px; color:black; font-size:16px; padding:10px; 
+                width:350px; border: 1px solid #dedede; background:none;}
+/*.canvas-show{position:absolute; padding-left:60px; line-height:50px; color:#c9c9c9; font-size:16px; z-index:-999}*/
+
+#phone-No{display:block;float:right;width:30px;height:30px;font-size: 16px;line-height: 28px;}
+#phone-yz{font-size: 16px;color:#C9C9C9;}
+.canvas-box-list-duan{float:left; height:30px; line-height:30px; color:black; font-size:16px; padding:10px;
+                     width:200px; border: 1px solid #dedede; background:none;}
+#fsyzm{}
+.canvas-box-list-color{float:left; width:120px; margin-left:10px;float:left; height:50px; line-height:50px; 
+    color:#c9c9c9; font-size:16px; cursor:pointer; background:#ff7400; color:#fff; font-size:18px; text-align:center;}
+
+#verify-No{float:right;width:30px;height:30px;font-size: 16px;line-height: 28px;}
+#verify-yz{font-size: 16px;color:#C9C9C9;}
+#pass-No{float:right;width:30px;height:30px;font-size: 16px;line-height: 28px;}
+#pass-yz{font-size: 16px;color:#C9C9C9;}
+#passtwo-No{float:right;width:30px;height:30px;font-size: 16px;line-height: 28px;}
+#passtwo-yz{font-size: 16px;color:#C9C9C9;}
+
+.yesbox{margin:5px 0px;float:left;  width: 26px;  height: 26px;  position: relative;  border:1px #333 solid;}
+/*.yesbox label {float:left;  width: 26px;  height: 26px;  cursor: pointer; left:0px; position: absolute; }*/
+.yesbox input{}
+
+.finish{float:left; width:500px; text-align:center; height:54px; line-height:54px; color:#333; 
+               font-size:20px; background:#fd7400;cursor: pointer;}
+
+
+/*隐藏*/
+.hide-box{display:none;position: absolute;top: 0%;left: 0%;width:1003px; height:100%;background-color: black;z-index:1001;-moz-opacity: 0.3;opacity:.30;filter: alpha(opacity=30);}
+.hide-text{display:none;float:left;position: absolute;top: 10%;left: 10%; right:10%;width: 80%;height: 80%;border: 8px solid #ff7400;background-color: white;z-index:1002;margin:20px; overflow:auto;}
+
+.hide-no{float:right;background:url(../img ZC/login_right.png) no-repeat 0px 0px; width:46px; height:46px;  cursor:pointer; position:absolute; top:-10px;}
+
+.hide-text-zj{float:left; width:96%; padding:2%;}
+.hide-text-zj  p{text-align:inherit; text-indent:2em;}
+.hide-text-zj-duan{float:left; width:100%; color:#ff7400; font-weight:bold; font-size:14px; border-bottom:#ff7400 1px solid; padding-top:20px;}
+
+.hide-close{margin:10px auto;width:100px;}
+
+.hide-close-event{float:left; text-align:center;height:25px; line-height:20px; background:#fd7400; color:#fff; border-radius:5px; font-size:14px; cursor:pointer; padding:0px 10px;}

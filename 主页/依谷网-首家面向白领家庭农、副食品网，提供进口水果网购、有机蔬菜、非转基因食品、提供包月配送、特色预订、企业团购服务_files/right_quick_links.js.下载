@@ -1,0 +1,214 @@
+jQuery(function($){
+	//创建DOM
+	var quickHTML = document.querySelector("div.quick_link_mian"),
+	quickShell = $(document.createElement('div')).html(quickHTML).addClass('quick_links_wrap'),
+	quickLinks = quickShell.find('.quick_links');
+	quickPanel = quickLinks.next();
+	quickShell.appendTo('.mui-mbar-tabs');	
+	//具体数据操作 
+	var 
+	quickPopXHR,
+	loadingTmpl = '<div class="loading" style="padding:30px 80px"><i></i><span>Loading...</span></div>',
+	popTmpl = '<a href="javascript:;" class="ibar_closebtn" title="关闭"></a><div class="ibar_plugin_title"><h3><%=title%></h3></div><div class="pop_panel"><%=content%></div><div class="arrow"><i></i></div><div class="fix_bg"></div>',
+	historyListTmpl = '<ul><%for(var i=0,len=items.length; i<5&&i<len; i++){%><li><a href="<%=items[i].productUrl%>" target="_blank" class="pic"><img alt="<%=items[i].productName%>" src="<%=items[i].productImage%>" width="60" height="60"/></a><a href="<%=items[i].productUrl%>" title="<%=items[i].productName%>" target="_blank" class="tit"><%=items[i].productName%></a><div class="price" title="单价"><em>&yen;<%=items[i].productPrice%></em></div></li><%}%></ul>',
+	quickPop = quickShell.find('#quick_links_pop'),
+	quickDataFns = {
+		//用户中心
+		mpbtn_recharge:{
+			title: '个人中心',
+			content: '',
+			init: $.noop
+		},
+		//购物信息
+		message_list: {
+			title: '购物车',
+			content: '',
+			init:$.noop
+		},		
+		//我的足迹
+		mpbtn_histroy:{
+			title: '我的足迹',
+			content:'',
+			init: $.noop
+		},
+		//收藏的产品
+		mpbtn_wdsc:{
+			title: '我的收藏',
+			content: '',
+			init: $.noop
+		},
+		//在线客服
+		mpbtn_kfzx:{
+			title: '客服在线',
+			content:'',
+			init: $.noop
+		}
+	};	
+	var 
+	prevPopType,
+	prevTrigger,
+	doc = $(document),
+	popDisplayed = false,
+	hideQuickPop = function(){
+		$('.quick_links_wrap').css("width",0)
+		$('.mui-mbar-tabs').css("width", 0)
+		if(prevTrigger){
+			prevTrigger.removeClass('current');
+		}
+		popDisplayed = false;
+		prevPopType = '';
+		quickPop.animate({left:280,queue:true});
+	},
+	showQuickPop = function(type){	
+		$('.quick_links_wrap').css("width","320px")
+		$('.mui-mbar-tabs').css("width", "320px")
+		if(quickPopXHR && quickPopXHR.abort){
+			quickPopXHR.abort();
+		}
+		if(type !== prevPopType){
+			var fn = quickDataFns[type];
+			$.ajax({type : "post",  
+			          url : "/rightUserCenter.action",  
+			          data : "type=" + type,  
+			          async : false,  
+			          success : function(data){  
+			            fn.content = data; 
+			            quickPop.html(ds.tmpl(popTmpl, fn));
+						fn.init.call(this, fn);
+			      }  
+			 });  
+		}
+		doc.unbind('click.quick_links').one('click.quick_links', hideQuickPop);
+		quickPop[0].className = 'quick_links_pop quick_' + type;
+		popDisplayed = true;
+		prevPopType = type;
+		quickPop.show();
+		quickPop.animate({left:0,queue:true});
+	};
+	quickShell.bind('click.quick_links', function(e){
+		e.stopPropagation();
+	});
+	quickPop.delegate('a.ibar_closebtn','click',function(){
+		quickPop.hide();
+		$('.quick_links_wrap').css("z-index",9)
+		$('.mui-mbar-tabs').css("z-index", 9)
+		quickPop.animate({left:280,queue:true});
+		if(prevTrigger){
+			prevTrigger.removeClass('current');
+		}
+	});
+	//加入购物车
+	saveShoppingCart=function(type,goods_id,buy_num){
+		 $.post("/cart/save.action", {
+				"goods_id" : goods_id,
+				"cart_type" : "0",
+				"buy_num" : buy_num,
+				"old_num" : "0",
+				"sales" : "0",
+				"rd" : Math.random()
+			}, function(data) {
+				data = jQuery.parseJSON(data);
+				var iRet = data.iRet;
+				var cartNum=data.cartNum;
+				if($('#egu-top-cart').length>0){
+					if (typeof(cartNum) != "undefined") { 
+						$('#egu-top-cart').text(cartNum);
+						document.querySelector("#shopCart").querySelector("span").innerHTML =cartNum;
+					}  
+				}
+				if (iRet == '0') {
+					if(type=='0'){//立即购买
+						window.location.href='/cart.html';
+					}else if(type=='2'){
+						layer.msg('加入购车成功!',{time: 1000});
+					}
+				} else {
+					layer.msg(data.msg);
+				}
+			});
+	}
+	//通用事件处理
+	var 
+	view = $(window),
+	quickLinkCollapsed = !!ds.getCookie('ql_collapse'),
+	getHandlerType = function(className){
+		return className.replace(/current/g, '').replace(/\s+/, '');
+	},
+	showPopFn = function(){
+		var type = getHandlerType(this.className);
+		if(popDisplayed && type === prevPopType){
+			return hideQuickPop();
+		}
+		showQuickPop(this.className);
+		if(prevTrigger){
+			prevTrigger.removeClass('current');
+		}
+		prevTrigger = $(this).addClass('current');
+	},
+	quickHandlers = {
+		//购物车，最近浏览，商品咨询
+		my_qlinks: showPopFn,
+		message_list: showPopFn,
+		history_list: showPopFn,
+		mpbtn_histroy:showPopFn,
+		mpbtn_recharge:showPopFn,
+		mpbtn_wdsc:showPopFn,
+		mpbtn_kfzx:showPopFn,
+		//返回顶部
+		return_top: function(){
+			ds.scrollTo(0, 0);
+			hideReturnTop();
+		}
+	};
+	quickShell.delegate('a', 'click', function(e){
+		var type = getHandlerType(this.className);
+		if(type && quickHandlers[type]){
+			quickHandlers[type].call(this);
+			e.preventDefault();
+		}
+	});	
+	//Return top
+	var scrollTimer, resizeTimer, minWidth = 1350;
+	function resizeHandler(){
+		clearTimeout(scrollTimer);
+		scrollTimer = setTimeout(checkScroll, 160);
+	}
+	
+	function checkResize(){
+		quickShell[view.width() > 1340 ? 'removeClass' : 'addClass']('quick_links_dockright');
+	}
+	function scrollHandler(){
+		clearTimeout(resizeTimer);
+		resizeTimer = setTimeout(checkResize, 160);
+	}
+	function checkScroll(){
+		view.scrollTop()>100 ? showReturnTop() : hideReturnTop();
+	}
+	function showReturnTop(){
+		quickPanel.addClass('quick_links_allow_gotop');
+	}
+	function hideReturnTop(){
+		quickPanel.removeClass('quick_links_allow_gotop');
+	}
+	view.bind('scroll.go_top', resizeHandler).bind('resize.quick_links', scrollHandler);
+	quickLinkCollapsed && quickShell.addClass('quick_links_min');
+	resizeHandler();
+	scrollHandler();
+	//右边菜单点击样式事件
+	$(".quick_links_panel li").mouseenter(function(){
+		$(this).children(".mp_tooltip").animate({left:-92,queue:true});
+		$(this).children(".mp_tooltip").css("visibility","visible");
+		$(this).children(".ibar_login_box").css("display","block");
+	});
+	$(".quick_links_panel li").mouseleave(function(){
+		$(this).children(".mp_tooltip").css("visibility","hidden");
+		$(this).children(".mp_tooltip").animate({left:-121,queue:true});
+		$(this).children(".ibar_login_box").css("display","none");
+	});
+	$(".quick_toggle li").mouseover(function(){
+		$(this).children(".mp_qrcode").show();
+	});
+	$(".quick_toggle li").mouseleave(function(){
+		$(this).children(".mp_qrcode").hide();
+	});
+});

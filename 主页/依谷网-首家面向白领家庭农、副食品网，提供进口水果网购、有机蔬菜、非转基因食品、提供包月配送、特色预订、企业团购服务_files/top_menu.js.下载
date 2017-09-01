@@ -1,0 +1,47 @@
+//头部向上显示菜单
+$("html,body").animate({
+	scrollTop : 2
+})
+$(window).scroll(function() {
+	var scroHs = $(this).scrollTop();
+	if (scroHs == 0) {
+		$(".head,.nav").slideDown();
+	} else {
+		$(".head,.nav").hide()
+	}
+	if (scroHs < 1) {
+		$(".head1").removeClass("head1_f")
+		$(".head1").addClass("head1_t")
+		$(".head1 h1 a img,.head1 h1 a b").css("display", "none")
+		$(".head1_1 ul li span").css("display", "block")
+		$(".head1_1 ul li").css("padding-right", "0px")
+	}
+	if (scroHs >= 2) {
+		$(".head1").removeClass("head1_t")
+		$(".head1 h1").css("display", "block")
+		$(".head1 h1 a img,.head1 h1 a b").css("display", "")
+		$(".head1_1 ul li span").css("display", "none")
+		$(".head1_1 ul li").css("padding-right", "25px")
+	}
+	if (scroHs > 2) {
+		$(".head1").removeClass("head1_t")
+		$(".head1").addClass("head1_f")
+		$(".head1 h1").css("display", "block")
+		$(".head1 h1 a img,.head1 h1 a b").css("display", "")
+		$(".head1_1 ul li span").css("display", "none")
+		$(".head1_1 ul li").css("padding-right", "27px")
+	}
+	if (scroHs > 740) {
+		$(".R_nav").css("display", "block")
+	} else {
+		$(".R_nav").css("display", "none")
+	}
+})
+
+$(document).ready(function() {
+	$(".menu_quanb").hover(function() {
+		$(this).find(".menu_fenl").slideDown();
+	}, function() {
+		$(this).find(".menu_fenl").slideUp();
+	});
+});

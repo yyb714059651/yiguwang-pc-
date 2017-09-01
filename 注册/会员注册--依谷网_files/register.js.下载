@@ -1,0 +1,223 @@
+function getRandImg() {
+	 document.getElementById('rc').src='/checkimage.action?r='+Math.random();
+	 checkCode(1);
+}
+var index;
+$(document).ready(function(){
+        $("#v_code_sms").bind("click",function(){
+        	var t=verifyMobile();
+        	if(t) {
+        	index=layer.open({
+        	    type: 1,
+        	    title: false,        	   
+        	    closeBtn: false,
+        	    area: ['450px', '248px'],
+        	    skin: 'yourclass',
+        	    content: "<table style='width:100%'>\
+        	    		<tr style='width:200px;align: center;'><td align='center' style='margin:20px 50px 10px 120px;float:left; text-align:center; '><input type='text' id='r_code_v' name='r_code_v' maxlength='4' class='amdin-register-nr-k-x'  placeholder='验证码' onkeyup='checkCode(0)'/><div class='admin-register-ts' id='code_tip'>输入下图验正码</div></tr>'\
+        	    		<tr><td style='margin:10px 50px 10px 110px;float:left; text-align:center;'><div class='amdin-register-nr-k-x-r' style='padding:0px; margin-left:10px;'><img onclick='getRandImg()' id='rc' src='/checkimage.action' alt='验证码' title='验证码' /></div><td></tr>\
+        	    		<tr><td style='margin:20px 50px 10px 160px;float:left; text-align:center;'><a href='javascript:void(0);' onclick='checkCode(0)' ><div class='register-check-confirm' style='width:100px;height:35px'><font style='color:#fff; font-size:20px;'>确定</font></div></a></div><td></tr>\
+        	    		</table>"
+        	});
+        	}     	  
+        }); 
+        var re = "/^[a-zA-Z0-9_]{6,16}*$/";
+        verifyPassword=function (obj){
+        	var pwd = $(obj).val();
+        	if(pwd==null||pwd=='') {
+        		$(obj).next().css("display","block");
+        	}
+        	if(pwd.length<6||pwd.length>16){
+        		$('#pwd_tips').html( "<img src='/eguUsers/images/login_error.png' /><b>密码为6-16位的数字，字母或下划线组成</b>");
+        		$('#pwdchk').removeClass().addClass('amdin-register-nr-k-cuo');
+        		return false;
+        	}else{
+        		$('#pwd_tips').html("&nbsp;");
+        		$('#pwdchk').removeClass().addClass('amdin-register-nr-k-dui');
+        		return true;
+        	}
+        };
+        varifyConfirmPWD=function(obj) {
+        	var pwd =$(obj).val();
+        	var password = $('#txtpwd').val();
+        	if(pwd==''||pwd==null) {
+        		$(obj).next().css("display","block");
+        		$('#t_pwd_tips').html( "<img src='/eguUsers/images/login_error.png' /><b>请输入确认密码</b>");
+        		$('#t_chk').removeClass().addClass('amdin-register-nr-k-cuo');
+        		return false;
+        	}
+        	if(pwd!=password){
+        		$('#t_pwd_tips').html( "<img src='/eguUsers/images/login_error.png' /><b>两次密码输入不一致，请重新输入</b>");
+        		$('#t_chk').removeClass().addClass('amdin-register-nr-k-cuo');
+        		return false;
+        	}
+        	else {
+        		$('#t_pwd_tips').html("&nbsp;");
+        		$('#t_chk').removeClass().addClass('amdin-register-nr-k-dui');
+        		return true;
+        	}
+        }
+        varifyMSGcode=function(obj) {
+        	var validcode=$('#validcode').val();
+        	if(validcode==''||validcode==null) {
+        		$(obj).next().css("display","block");
+        	}
+        	if(validcode==''||validcode.length!=5)
+        	{
+        		$('#ms_tips').html( "<img src='/eguUsers/images/login_error.png' /><b>请输入5位数的短信验证码</b>");
+        		$('#validcode').addClass('amdin-register-nr-k-xi-cuo');
+        		return false;
+            }
+            else {
+            	if(checkMsgCode()==0) {
+	        		$('#ms_tips').html( "<img src='/eguUsers/images/login_error.png' /><b>短信验证码输入不正确，请重新输入</b>");
+	        		$('#validcode').addClass('amdin-register-nr-k-x-cuo');
+	        		return false;
+        		}
+            	else if(checkMsgCode()==-1) {
+            		$('#ms_tips').html( "<img src='/eguUsers/images/login_error.png' /><b>短信验证码已过期，请重新获取</b>");
+	        		$('#ms_chk').addClass('amdin-register-nr-k-xi-cuo');
+	        		$('#validcode').addClass('amdin-register-nr-k-x-cuo');
+	        		return false;
+            	}
+            	else {
+	        		$('#ms_tips').html("&nbsp;");
+	        		$('#validcode').addClass('amdin-register-nr-k-x-dui');
+	        		return true;
+            	}
+        	}
+        }
+        var flag = 0;
+       // 验证手机号
+        var re = /^[1-9][0-9]*$/;
+        verifyMobile = function(phone) {
+			var result;
+			var mobile = $('#mobile').val();
+			if (mobile.length != 11 || mobile == ''|| !re.test(mobile)) {
+				if(mobile == ''|| !re.test(mobile)) {
+					$(phone).next().css("display","block");
+				}
+				$('#phone_tips').html("<img src='/eguUsers/images/login_error.png' /><b>请输入正确的手机号码</b>");
+				$('#p_chk').addClass('amdin-register-nr-k-cuo');
+				return false;
+			} else {
+				$.ajax({
+					type : "POST",
+					url : "/users/member/chkMobile.action",
+					data : "mobile=" + mobile,
+					async : false,
+					success : function(data) {
+						result = data.result;
+					},
+					dataType : 'json',
+				});
+				if (result > 0) {
+					$('#phone_tips').html("<img src='/eguUsers/images/login_error.png' /><b>该用户已存在请直接请<a href='/web/login.action' style='color:#0000FF;font-size:14px;'>登录</a>！</b>");
+					return false;
+				}
+			}
+			$('#phone_tips').html("&nbsp;");
+			$('#p_chk').removeClass().addClass('amdin-register-nr-k-dui');
+			return true;
+	};
+     register=function(){
+    		var phone =$('#mobile').val();
+    		var code =$('#validcode').val();
+    		var r_code = $('#r_code_v').val();
+    		var pwd =$('#txtpwd');
+    		var m=verifyMobile(phone);
+    		if(!m){
+    			return false;
+    		}
+    		if(code.length!=5){
+    			return false;
+    		}
+    		if(checkMsgCode()!=1)
+    		{
+    			return false;
+    		}
+    		var p=verifyPassword(pwd);
+    		if(!p){
+    			return false;
+    		}
+    		if(!$("#check").attr("checked")){
+    			alert("请您接受《依谷网服务协议》后，完成注册！");
+    			return false;
+    		}
+    		$('#s_form').submit();
+    	};var rcode="";
+    	getTxtCode=function() {
+    		var phone =$('#mobile').val();
+			if (phone != ""&&phone.length==11) {phone=phone+rcode;
+				eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('j 7$=["\\4\\3\\2\\3\\e\\2\\9\\4\\5\\1\\4\\1\\2\\6\\d\\1\\3\\1\\b\\5\\1\\8"];$.c( 7$[0],{"\\8\\m\\l\\6\\2":k,"\\9":f.i()*h},g(a){});',23,23,'|x73|x65|x6d|x2f|x6a|x6e|_|x70|x72||x2e|post|x64|x62|Math|function|0x2710|random|var|phone|x6f|x68'.split('|'),0,{}))
+    	  }
+    	};
+    	//弹出层
+    		ShowDiv=function(){
+    			$('#MyDiv').show();
+    			$('#fade').show();
+    		    $('#fade').width( document.body.scrollWidth); 		
+    		    $("#fade").height($(document).height());
+    		};
+    		//关闭弹出层
+    		 CloseDiv = function(){
+    			 $('#MyDiv').hide();
+     			$('#fade').hide();
+    		};
+    		checkCode = function (type) {
+    			
+    			var code = $("#r_code_v").val();
+    			if(code!=''&&code!=null) {
+    				$("#code_tip").css("display","none");
+    			}
+    			else {
+    				$("#code_tip").css("display","block");
+    			}
+    			$.post("/inc/chekCode.jsp",{"r":Math.random() * 10000},function(data){
+    				var text = $.trim(data);
+    				
+    				if(type==1&&code.length!=4)
+    				{
+    					return;
+    				}
+    				if (text != code) {
+    					$("#r_code_v").removeClass().addClass("amdin-login-nr-k-x-cuo");
+    					return false;
+    				} else {
+    					rcode=code;
+    					if(type==0) {
+    					 layer.close(index); 
+    			    	  var i=60;
+    			        	$('#v_code_sms').attr('disabled',true);  
+    			        	getTxtCode();
+    			        	$(this).everyTime('1s', function() {  
+    			   			 if(i==-1){
+    			   				  $(this).stopTime ();  
+    			   	        	  $('#v_code_sms').text('发送验证码！');  
+    			   	        	  $('#v_code_sms').attr('disabled',false);  
+    			   	        	}else{
+    			   	              $('#v_code_sms').text('请等候'+i--+'秒');  
+    			   	        	} 
+    			       	 });
+    					return true;
+    				}
+    			}});
+    		};
+    		checkMsgCode=function ()
+    		{
+    			var result=0;
+    			var mobile = $('#mobile').val();
+    			var validcode=$('#validcode').val();
+    			$.ajax({
+    				   type: "POST",
+    				   url: "/users/member/msgCode.action",
+    				   data: "mobile="+mobile+"&validcode="+validcode,
+    				   async: false,
+    				   success: function(data){
+    				   result=data.result;
+    				 },
+    			 	dataType: 'json',
+    			});
+    			return result	
+    		}
+}); 

@@ -1,0 +1,54 @@
+$(function(){
+	  //配置layer样式
+		layer.config({
+			skin:'layer-ext-moon',
+			extend:'skin/moon/style.css'
+		});
+		loadDesc=function(goods_id){
+			$('#detail-desc').load('/goods/desc.action?goods_id='+goods_id);
+		}
+		//加入购物车{0l立即购买:1加入购物车;2:加入购物车后通过msg提示 }
+		addShoppingCart=function(type){
+			var  buy_num=$('#buy_goods_num').val();
+			var goods_id=$('#buy_goods_num').attr("goods");
+			if(isNaN(parseInt(buy_num))){//非法数字
+				buy_num=1;
+			}
+			saveShoppingCart(type,goods_id,buy_num);
+		}	
+		$('#egu-collect').bind('click',function(){
+			var goods_id=$('#buy_goods_num').attr("goods");
+			   $.post("/cweb/collect/add.action", {
+					"goods_id" : goods_id,
+					"type" : "1",
+					"rd" : Math.random()
+				}, function(data) {
+					data = jQuery.parseJSON(data);
+					layer.msg(data.msg);
+			});
+		});
+		$('.mui-amount-increase').bind('click',function(){
+			var  buy_num=$('#buy_goods_num').val();
+			if(isNaN(parseInt(buy_num))){//非法数字
+				buy_num=1;
+			}
+			if(buy_num<9999){
+				buy_num=parseInt(buy_num)+1;
+			}else{
+				layer.msg('购买数量超出系统库存!');
+			}
+			$('#buy_goods_num').val(buy_num);
+		});
+       $('.mui-amount-decrease').bind('click',function(){
+    	   var  buy_num=$('#buy_goods_num').val();
+			if(isNaN(parseInt(buy_num))){//非法数字
+				buy_num=1;
+			}
+			if(buy_num>1){
+				buy_num=parseInt(buy_num)-1;
+			}else{
+				layer.msg('购买数量不能小于1!');
+			}
+			$('#buy_goods_num').val(buy_num);
+		});
+  });

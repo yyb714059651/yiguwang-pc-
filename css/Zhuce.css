@@ -34,7 +34,7 @@ h2{font-weight:normal;}
 #phone-yz{font-size: 16px;color:#C9C9C9;}
 .canvas-box-list-duan{float:left; height:30px; line-height:30px; color:black; font-size:16px; padding:10px;
                      width:200px; border: 1px solid #dedede; background:none;}
-#fsyzm{}
+
 .canvas-box-list-color{float:left; width:120px; margin-left:10px;float:left; height:50px; line-height:50px; 
     color:#c9c9c9; font-size:16px; cursor:pointer; background:#ff7400; color:#fff; font-size:18px; text-align:center;}
 
@@ -50,7 +50,7 @@ h2{font-weight:normal;}
 .yesbox input{}
 
 .finish{float:left; width:500px; text-align:center; height:54px; line-height:54px; color:#333; 
-               font-size:20px; background:#fd7400;cursor: pointer;}
+               font-size:20px; background:#ccc;cursor: pointer;}
 
 
 /*隐藏*/

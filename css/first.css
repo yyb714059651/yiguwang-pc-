@@ -27,7 +27,7 @@ ul,li{list-style: none;display: block;}
 .w-80{width:80px;}
 .w-img{position: relative;z-index:500;height:30px;line-height:30px;float: left;}
 .w-img .imgS{float: left;position: relative;padding-right: 0px;margin-top: 0px;}
-.w-img .imgS a .b1-img{display: none;position: absolute;top: 25px;left: -80px;width: 250px}
+.w-img .imgS a .b1-img{display: none;position: absolute;top: 25px;left: -100px;width: 250px}
  .w-img .imgS a:hover{color:black;}
 .w-img .imgS a:hover .b1-img{display: block;z-index:600;}
 /*第二行*/

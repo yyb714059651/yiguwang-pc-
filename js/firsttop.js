@@ -76,6 +76,11 @@ window.onload=function(){
 					//鼠标事件
 					oWrap.onmouseover = function(){
 						clearInterval(timer);
+						console.log("1");
+					}
+					oWrap.onmousemove = function(){
+						clearInterval(timer);
+						console.log("2");
 					}
 					oWrap.onmouseout = function(){
 						autoPlay();
@@ -191,10 +196,13 @@ window.onload=function(){
 			    document.getElementById("top2").style.position="fixed"
 				document.getElementById("top2").style.top="0px"
 			    
-			}else{
+			}else if(scrollTop<0){
 				document.getElementById("top2").style.top="-100px"
-			}	
-	}    
+			}else if(scrollTop==0){
+				document.getElementById("top2").style.background="#e0e0e0";
+				document.getElementById("top2").style.position="";
+			}
+	}
         
         
         

@@ -394,6 +394,7 @@ window.onload=function(){
 	}
 	*/
 	//点击删除按钮删除一行（删除该商品）
+	/*
 	function deleteGood(){
 		//this.parentNode.parentNode.remove();
 		table.deleteRow(this.parentNode.parentNode.rowIndex);
@@ -402,6 +403,7 @@ window.onload=function(){
 	for(var i=0;i<deletes.length;i++){
 		deletes[i].firstElementChild.addEventListener("click",deleteGood,false);
 	}
+	*/
 	
 	
 	//求所选东西的总数量
@@ -440,11 +442,30 @@ window.onload=function(){
 			zongLiang();  
             sumAll();		
 	}
+	
+	//删除页面显示
+	let del=document.getElementsByClassName("box-list-li-sc");
+	for(let i=0;i<del.length;i++){
+		del[i].addEventListener("click",_del,false);
+			function _del(){		
+					zongLiang();  
+		            sumAll();		
+			}
+	}
+	
+	
+	
 	//页面刚打开就调用	
     zongLiang();  
     sumAll();
 	                 
 }
+//删除商品
+    function delDiv(obj){
+		obj.parentNode.parentNode.remove();
+      //var divul = document.getElementsByClassName("box-list-li-sc")[0];
+      //divul.parentNode.parentNode.remove();     
+    }
 
 //Jquery
 
@@ -463,4 +484,3 @@ window.onload=function(){
 		$(".cart-x :checkbox").checkParent($("#ckbox1"));			
 		
 	});
-	

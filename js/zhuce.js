@@ -28,9 +28,22 @@ function show1(){
 	//var reg=/^13\d{9}$/;
 	var result=checkAll("phone",phone);
 	if(result==true){
-		document.getElementById("phone-No").innerHTML="√";
-		document.getElementById("phone-yz").innerHTML="手机号码正确";
 		
+	
+		$.get("zhucemysql.php",{"usertel":document.getElementById("phone").value},function(str){
+			if(str=="1"){
+				$("#phone-yz").html("该用户已存在，请重新选择");
+				$("#phone-No").html("×");
+			}else{
+				$("#phone-yz").html("手机格式正确");
+				$("#phone-No").html("√");
+			}
+		});
+	
+	
+//		document.getElementById("phone-No").innerHTML="√";
+//		document.getElementById("phone-yz").innerHTML="手机号码正确";
+//		
 		 return 1;
 	}else{
 		document.getElementById("phone-No").innerHTML="×";
@@ -88,7 +101,24 @@ function show4(){
 function show5(){
 	var sum=show1()+show2()+show3()+show4()
     if(sum==4){
-	
+    	
+	   $.post("zhucemysql2.php",
+				{
+					"userTel":$("#phone").val(),
+					"userPass":$("#mima").val()
+				},
+				function(str){
+					
+						//保存cookie
+				location.href="Denglu.html";
+//					if(str=="1"){	
+//					}else{
+//						alert("用户名或者密码错误，登录失败！");
+//					}
+					
+				}
+		);
+	      
 	   alert("恭喜你，完成了注册！！！");
 	
 	}else{
@@ -133,4 +163,7 @@ function show5(){
     }  	
 
 
-}	
+}
+ 
+//mysql
+

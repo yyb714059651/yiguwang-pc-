@@ -20,6 +20,8 @@
 	$sqlStr="select * from userzhuce where userTel='".$tel."' and  userPass='".$pass."'";
     $result = mysql_query($sqlStr,$lianjiemysql);
     $rowCount = mysql_num_rows($result);
+    //echo $rowCount;
+    
     if($rowCount==0){
     	echo "0";//登录失败    	
     }else{

@@ -8,12 +8,13 @@ $("#btndenglu").click(function(){
 					"userPass":$("#pass").val()
 				},
 				function(str){
-					if(str=="1"){
-						//保存cookie
-						
-						location.href="first.html";
-					}else{
+					//console.log(str);
+					if(str==0){
+						//保存cookie		
 						alert("用户名或者密码错误，登录失败！");
+						//alert(str);
+					}else{
+						location.href="first.html";
 					}
 					
 				}

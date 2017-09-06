@@ -1120,7 +1120,8 @@ a.Next:hover {color: #abcd05;}
 .list-filter .f-pager span  a:hover {color:#abcd05;text-decoration: none;}
 .list-nr-ri-content {width: 1228px;float: left;margin: 10px auto;}
 .list-nr-ri-content li {float: left;width: 284px;border: 1px #e8e8e8 solid;height: 378px;margin:10px 20px 10px 0px;}
-.list-nr-ri-content li img {width:260px; height:260px;}.list-nr-ri-content .right {border-right: 1px #e8e8e8 solid;}
+.list-nr-ri-content li img {width:260px; height:260px;}
+.list-nr-ri-content .right {border-right: 1px #e8e8e8 solid;}
 .list-nr-ri-content .top {border-top: 1px #e8e8e8 solid;}
 .list-nr-ri-content .wz {text-align: center;font-size: 14px;z-index: 99;display: block;z-index: 9999;position: relative;margin-top:5px;}
 .list-nr-ri-content .wz a {font-size: 14px;}

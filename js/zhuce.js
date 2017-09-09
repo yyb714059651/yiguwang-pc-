@@ -30,12 +30,12 @@ function show1(){
 	if(result==true){
 		
 	
-		$.get("zhucemysql.php",{"usertel":document.getElementById("phone").value},function(str){
+		$.get("php/zhucemysql.php",{"usertel":document.getElementById("phone").value},function(str){
 			if(str=="1"){
 				$("#phone-yz").html("该用户已存在，请重新选择");
 				$("#phone-No").html("×");
 			}else{
-				$("#phone-yz").html("手机格式正确");
+				$("#phone-yz").html("该用户可以使用");
 				$("#phone-No").html("√");
 			}
 		});
@@ -47,7 +47,7 @@ function show1(){
 		 return 1;
 	}else{
 		document.getElementById("phone-No").innerHTML="×";
-		document.getElementById("phone-yz").innerHTML="请输入正确的手机号码";
+		document.getElementById("phone-yz").innerHTML="请输入正确的以1开头的11位手机号码";
 		return 0;
 	}	
 }
@@ -63,7 +63,7 @@ function show1(){
 		 return 1;
 	}else{
 		document.getElementById("verify-No").innerHTML="×";
-		document.getElementById("verify-yz").innerHTML="请输入正确的验证码";
+		document.getElementById("verify-yz").innerHTML="请输入6位正确的验证码";
 		return 0;
 	}	
 }        
@@ -102,7 +102,7 @@ function show5(){
 	var sum=show1()+show2()+show3()+show4()
     if(sum==4){
     	
-	   $.post("zhucemysql2.php",
+	   $.post("php/zhucemysql2.php",
 				{
 					"userTel":$("#phone").val(),
 					"userPass":$("#mima").val()

@@ -45,9 +45,9 @@ function passReg(){
 function emailReg(){
 	return /^\w{3,}@\w+\.(com|net|cn)$/i; 
 }
-//电话开头13   总11位
+//电话开头1   总11位
 function phoneReg(){
-	return /^13\d{9}$/;
+	return /^1\d{10}$/;
 }
 
 function yzmReg(){
